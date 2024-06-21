@@ -10,56 +10,49 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-
 import { Trash } from 'lucide-react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useAuth } from './auth-provider';
 
-interface PropsType {
-    mediaId: string;
-}
-
-const DeleteImage: React.FC<PropsType> = ({ mediaId }) => {
+const DeleteGallery = ({ galleryId }: { galleryId: string }) => {
+    const router = useRouter();
     const { getUser } = useAuth();
-    const [deleting, setDeleting] = React.useState<boolean>(false);
 
-    const deleteMedia = async () => {
-        setDeleting(true);
-        await axios.delete(`/api/media/delete/${mediaId}`);
-        setDeleting(false);
-        getUser();
+    const deleteGallery = async () => {
+        try {
+            await axios.delete(`/api/gallery/delete/${galleryId}`);
+            router.push(`/dashboard`);
+            getUser();
+        } catch (error) {
+            alert('Failed to delete gallery');
+        }
     };
 
     return (
         <AlertDialog>
-            <AlertDialogTrigger
-                className='bg-transparent flex justify-center items-center text-red-700 p-2 border rounded-md'
-                disabled={deleting}
-            >
+            <AlertDialogTrigger className='bg-red-800 hover:bg-red-700 mx-2 flex justify-center items-center text-white px-4 py-2 rounded-md'>
                 <span>
-                    <Trash size={'1.4em'} />
+                    <Trash size={'1.2em'} />
                 </span>
-                <span className='text-lg ml-1'>Delete</span>
+                <span className='ml-1 hidden lg:inline'>Delete</span>
             </AlertDialogTrigger>
-
             <AlertDialogContent
                 style={{ boxShadow: `0 8px 32px 0 rgba( 31, 38, 135, 0.37 )` }}
-                className='w-[90%] lg:w-[20%]'
             >
                 <AlertDialogHeader>
                     <AlertDialogTitle>
                         Are you absolutely sure?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        The media will be permenantly deleted and removed from
-                        the galleries as well.
+                        This Gallery will be permenantly deleted.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                         className='bg-transparent border rounded-md text-red-500 hover:bg-transparent'
-                        onClick={deleteMedia}
+                        onClick={deleteGallery}
                     >
                         Delete
                     </AlertDialogAction>
@@ -69,4 +62,4 @@ const DeleteImage: React.FC<PropsType> = ({ mediaId }) => {
     );
 };
 
-export default DeleteImage;
+export default DeleteGallery;

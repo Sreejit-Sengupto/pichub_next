@@ -1,24 +1,24 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface User extends Document {
-  // _id?: string,
-  username: string;
-  password: string;
-  refreshToken?: string;
+    // _id?: string,
+    username: string;
+    password: string;
+    refreshToken?: string;
 }
 
 const userSchema: Schema<User> = new Schema({
-  username: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  refreshToken: {
-    type: String,
-  },
+    username: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    refreshToken: {
+        type: String,
+    },
 });
 
 // userSchema.pre("save", async function (next) {
@@ -35,5 +35,5 @@ const userSchema: Schema<User> = new Schema({
 // };
 
 export const User =
-  (mongoose.models.User as mongoose.Model<User>) ||
-  mongoose.model<User>("User", userSchema);
+    (mongoose.models.User as mongoose.Model<User>) ||
+    mongoose.model<User>('User', userSchema);
