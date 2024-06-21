@@ -44,7 +44,7 @@ const GallerySelectorMobile = () => {
                                 return (
                                     <Link
                                         onClick={() => setOpen(false)}
-                                        href={`/home/${item._id}`}
+                                        href={`/dashboard/${item._id}`}
                                         key={item._id}
                                     >
                                         <Button className='w-full'>
