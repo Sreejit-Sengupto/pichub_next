@@ -5,12 +5,10 @@ import { useAuth } from '@/components/auth-provider';
 import GalleryDetails from './GalleryDetails';
 
 const GalleryViewer = ({ params }: { params: { id: string } }) => {
-    console.log(params);
     const id = params.id;
     const { user } = useAuth();
 
     const [images, setImages] = React.useState<any>();
-    console.log(images);
 
     React.useEffect(() => {
         getImages();
@@ -25,7 +23,7 @@ const GalleryViewer = ({ params }: { params: { id: string } }) => {
     };
     return (
         <div className='flex flex-col'>
-            <GalleryDetails galleryId={id} />
+            <GalleryDetails galleryId={id} galleryName={images ? images.data[0].galleryName : ""} />
             {images && images.data[0].images.length === 0 && (
                 <p className='flex justify-center items-center h-[500px] text-gray-500'>
                     No images in this Gallery
