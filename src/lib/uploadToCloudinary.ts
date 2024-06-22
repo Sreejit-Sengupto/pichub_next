@@ -15,6 +15,7 @@ const uploadToCloudinary = async (localPath: string) => {
         }
         const response = await cloudinary.uploader.upload(localPath, {
             resource_type: 'auto',
+            proxy: 'https://pichubapp.vercel.app'
         });
         fs.unlinkSync(localPath);
         return response;
