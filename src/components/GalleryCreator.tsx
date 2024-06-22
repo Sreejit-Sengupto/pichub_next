@@ -37,7 +37,7 @@ const GalleryCreator = () => {
         getUser();
         setOpen(false);
         setGalleryName('');
-        router.push(data.data.data._id);
+        router.push(`/dashboard/${data.data.data._id}`);
     };
 
     return (
