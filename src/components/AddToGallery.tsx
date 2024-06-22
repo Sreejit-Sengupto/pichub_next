@@ -22,6 +22,7 @@ import {
 import { Trash } from 'lucide-react';
 
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface PropsType {
     galleries?: {
@@ -36,14 +37,23 @@ const AddToGallery: React.FC<PropsType> = ({ galleries, mediaId }) => {
     const [selectedGallery, setSelectedGallery] = React.useState<string | null>(
         null,
     );
+    console.log(selectedGallery);
+
     const [adding, setAdding] = React.useState<boolean>(false);
 
     const addMediaToGallery = async () => {
         setAdding(true);
-        await axios.post(`/api/media/add-to-gallery`, {
-            mediaId,
-            selectedGallery,
-        });
+        await toast.promise(
+            axios.post('/api/media/add-to-gallery', {
+                mediaId,
+                galleryId: selectedGallery,
+            }),
+            {
+                loading: 'Adding media....',
+                success: 'Media added successfully',
+                error: 'Failed to add media to gallery',
+            },
+        );
         setAdding(false);
     };
     return (
@@ -87,7 +97,10 @@ const AddToGallery: React.FC<PropsType> = ({ galleries, mediaId }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={addMediaToGallery}>
+                    <AlertDialogAction
+                        onClick={addMediaToGallery}
+                        disabled={adding}
+                    >
                         Add
                     </AlertDialogAction>
                 </AlertDialogFooter>

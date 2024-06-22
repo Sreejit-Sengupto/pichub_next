@@ -16,15 +16,20 @@ import GallerySelectorMobile from './GallerySelectorMobile';
 const Navbar = () => {
     const { user, setUser } = useAuth();
 
+    const [loading, setLoading] = React.useState<boolean>(false);
+
     const router = useRouter();
 
     const logout = async () => {
+        setLoading(true);
         try {
             await axios.post('/api/user/logout');
             setUser(null);
             router.replace('/login');
         } catch (error) {
             alert('Unable to logout');
+        } finally {
+            setLoading(false);
         }
     };
     return (
@@ -61,6 +66,7 @@ const Navbar = () => {
                                 <button
                                     className='mx-auto w-full flex justify-center items-center border p-3 rounded-lg text-red-500'
                                     onClick={logout}
+                                    disabled={loading}
                                 >
                                     <span>Logout</span>
                                     <span className='ml-2'>

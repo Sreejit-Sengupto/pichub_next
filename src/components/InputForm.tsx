@@ -36,6 +36,8 @@ const formSchema = z.object({
 });
 
 const InputForm: React.FC<ComponentProps> = ({ type }) => {
+    const [loading, setLoading] = React.useState<boolean>(false);
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -50,10 +52,17 @@ const InputForm: React.FC<ComponentProps> = ({ type }) => {
         const username = form.getValues().username;
         const password = form.getValues().password;
 
-        if (type === AuthType.Login) {
-            login(username, password);
-        } else {
-            register(username, password);
+        try {
+            setLoading(true);
+            if (type === AuthType.Login) {
+                await login(username, password);
+            } else {
+                await register(username, password);
+            }
+        } catch (error: any) {
+            alert(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -100,7 +109,11 @@ const InputForm: React.FC<ComponentProps> = ({ type }) => {
                         </FormItem>
                     )}
                 />
-                <Button type='submit' className='w-[15rem] block mx-auto'>
+                <Button
+                    type='submit'
+                    className='w-[15rem] block mx-auto'
+                    disabled={loading}
+                >
                     {type && type.charAt(0).toUpperCase() + type.substring(1)}
                 </Button>
             </form>

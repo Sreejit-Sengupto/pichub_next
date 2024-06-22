@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Karla } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/components/auth-provider';
+import { Toaster } from 'react-hot-toast';
 
 const karla = Karla({ subsets: ['latin'] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
                         {children}
                     </ThemeProvider>
                 </AuthProvider>
+                <Toaster />
             </body>
         </html>
     );

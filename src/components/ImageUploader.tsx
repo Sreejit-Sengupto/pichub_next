@@ -22,6 +22,7 @@ const ImageUploder: React.FC = () => {
     const [caption, setCaption] = React.useState<string>('');
     const [selectedGallery, setSelectedGallery] = React.useState<string>('');
     const [open, setOpen] = React.useState<boolean>(false);
+    const [loading, setLoading] = React.useState<boolean>(false);
 
     const galleries = useAuth().user?.galleries;
     const { upload } = useAuth();
@@ -32,16 +33,24 @@ const ImageUploder: React.FC = () => {
 
     const handleUpload = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('caption', caption);
-        if (mediaPath) {
-            formData.append('file', mediaPath);
-        }
-        if (selectedGallery) {
-            formData.append('galleryId', selectedGallery);
-        }
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append('caption', caption);
+            if (mediaPath) {
+                formData.append('file', mediaPath);
+            }
+            if (selectedGallery) {
+                formData.append('galleryId', selectedGallery);
+            }
 
-        upload(formData);
+            await upload(formData);
+            setOpen(false);
+        } catch (error: any) {
+            alert(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -100,7 +109,7 @@ const ImageUploder: React.FC = () => {
                                     <Button
                                         type='submit'
                                         className='w-full'
-                                        onClick={() => setOpen(false)}
+                                        disabled={loading}
                                     >
                                         <span>Upload</span>
                                     </Button>

@@ -2,16 +2,18 @@
 import { useAuth } from '@/components/auth-provider';
 import React from 'react';
 import ImagePreviewer from '@/components/ImagePreviewer';
+import SkeletonLoader from '@/components/SkeletonLoader';
 
 export default function ImagePage() {
     const { user } = useAuth();
     const userUploads = user?.uploads;
+
     const images =
         userUploads &&
         userUploads.map((item) => {
             return (
                 <ImagePreviewer
-                    imageUrl={item.mediaURL}
+                    imageUrl={item.mediaUrl}
                     caption={item.caption}
                     username={user.username}
                     uploadedBy={item.uploadedBy}
@@ -30,7 +32,7 @@ export default function ImagePage() {
                 </p>
             )}
             <div className='w-full grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 mx-auto'>
-                {images}
+                {images ? images : <SkeletonLoader />}
             </div>
         </>
     );

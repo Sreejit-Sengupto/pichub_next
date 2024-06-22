@@ -40,7 +40,7 @@ export async function GET(
                     {
                         $project: {
                             caption: 1,
-                            mediaURL: 1,
+                            mediaUrl: 1,
                             resourceType: 1,
                             cloudinaryPublicId: 1,
                             uploadedBy: 1,

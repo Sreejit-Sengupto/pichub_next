@@ -14,6 +14,7 @@ import {
 import { Trash } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from './auth-provider';
+import toast from 'react-hot-toast';
 
 interface PropsType {
     mediaId: string;
@@ -25,7 +26,11 @@ const DeleteImage: React.FC<PropsType> = ({ mediaId }) => {
 
     const deleteMedia = async () => {
         setDeleting(true);
-        await axios.delete(`/api/media/delete/${mediaId}`);
+        await toast.promise(axios.delete(`/api/media/delete/${mediaId}`), {
+            loading: 'Deleting media',
+            success: 'Delete media successfully',
+            error: 'Failed to delete media',
+        });
         setDeleting(false);
         getUser();
     };

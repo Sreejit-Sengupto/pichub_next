@@ -14,19 +14,20 @@ import { Trash } from 'lucide-react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from './auth-provider';
+import toast from 'react-hot-toast';
 
 const DeleteGallery = ({ galleryId }: { galleryId: string }) => {
     const router = useRouter();
     const { getUser } = useAuth();
 
     const deleteGallery = async () => {
-        try {
-            await axios.delete(`/api/gallery/delete/${galleryId}`);
-            router.push(`/dashboard`);
-            getUser();
-        } catch (error) {
-            alert('Failed to delete gallery');
-        }
+        await toast.promise(axios.delete(`/api/gallery/delete/${galleryId}`), {
+            loading: 'Deleting gallery',
+            success: 'Deleted successfully',
+            error: 'Failed to delete',
+        });
+        router.push('/dashboard');
+        getUser();
     };
 
     return (

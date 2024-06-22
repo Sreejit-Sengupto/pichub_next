@@ -13,24 +13,31 @@ import { Button } from '@/components/ui/button';
 import { PlusSquare } from 'lucide-react';
 import { useAuth } from './auth-provider';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 const GalleryCreator = () => {
+    const router = useRouter();
     const { getUser } = useAuth();
 
     const [galleryName, setGalleryName] = React.useState<string>('');
     const [open, setOpen] = React.useState<boolean>(false);
 
     const handleCreateGallery = async () => {
-        try {
-            await axios.post('/api/gallery/create', {
+        const data = await toast.promise(
+            axios.post('/api/gallery/create', {
                 galleryName,
-            });
-            getUser();
-        } catch (error) {
-            alert('Failed to create gallery');
-        } finally {
-            setOpen(false);
-        }
+            }),
+            {
+                loading: 'Creating gallery',
+                success: 'Gallery created',
+                error: 'Failed to create gallery',
+            },
+        );
+
+        getUser();
+        setOpen(false);
+        setGalleryName('');
+        router.push(data.data.data._id);
     };
 
     return (

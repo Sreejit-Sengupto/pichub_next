@@ -8,20 +8,26 @@ import {
 } from '@/components/ui/popover';
 import { UserPlus2 } from 'lucide-react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useAuth } from './auth-provider';
 
 const AddMember = ({ galleryId }: { galleryId: string }) => {
-    const [newMember, setNewMember] = React.useState('');
+    const { getUser } = useAuth();
+    const [newMember, setNewMember] = React.useState<string>('');
     const addMember = async () => {
-        try {
-            await axios.post('/api/gallery/add-member', {
+        await toast.promise(
+            axios.post('/api/gallery/add-member', {
                 username: newMember,
-                galleryId: galleryId,
-            });
-        } catch (error) {
-            alert('Failed to add member');
-        } finally {
-            setNewMember('');
-        }
+                galleryId,
+            }),
+            {
+                loading: `Adding ${newMember} to gallery`,
+                success: `${newMember} added successfully`,
+                error: `Failed to add ${newMember}`,
+            },
+        );
+        setNewMember('');
+        getUser();
     };
     return (
         <Popover>

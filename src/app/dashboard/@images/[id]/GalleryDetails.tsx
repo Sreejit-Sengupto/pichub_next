@@ -21,7 +21,6 @@ const GalleryDetails = ({
 }) => {
     const { user } = useAuth();
     const [members, setMembers] = React.useState<AxiosResponse | null>(null);
-    console.log(members);
 
     React.useEffect(() => {
         fetchMembers();
@@ -35,19 +34,19 @@ const GalleryDetails = ({
     };
 
     const admin = members && members.data.admin[0].username;
-    console.log(admin);
 
     const galleryMembers =
         members &&
         members.data.members.filter((item: string) => item !== admin);
-    console.log(galleryMembers);
 
     return (
         <div className='border border-l-0 p-4 w-full flex justify-between items-center'>
             <p className='w-[40%] p-1 overflow-x-auto'>{galleryName}</p>
 
             <div className='flex justify-center items-center'>
-                {user && user.username === admin && <AddMember  galleryId={galleryId}/>}
+                {user && user.username === admin && (
+                    <AddMember galleryId={galleryId} />
+                )}
 
                 <Popover>
                     <PopoverTrigger className='flex justify-center items-center border rounded-md px-4 py-2'>
