@@ -12,21 +12,20 @@ export async function POST(req: Request) {
         await dbConnect();
 
         const formData = await req.formData();
-        const file = formData.get('file') as File;
-        const caption = formData.get('caption') as string;
-        const galleryId = formData.get('galleryId') as string;
+        const file = await formData.get('file') as File;
+        console.log(file);
+        
+        const caption = await formData.get('caption') as string;
+        const galleryId = await formData.get('galleryId') as string;
 
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = new Uint8Array(arrayBuffer);
 
-        const localFilePath = `./public/uploads/${
-            req.headers.get('X-username') + file.name
-        }`;
-        await fs.writeFile(localFilePath, buffer);
+        const fileBuffer = await file.arrayBuffer()
+        const mime = file.type;
+        const encoding = 'base64'
+        const base64Data = Buffer.from(fileBuffer).toString('base64')
+        const fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
 
-        revalidatePath('/');
-
-        const uploadedFile = await uploadToCloudinary(localFilePath);
+        const uploadedFile = await uploadToCloudinary(fileUri);
         console.log(uploadedFile);
 
         if (!uploadedFile?.url) {
