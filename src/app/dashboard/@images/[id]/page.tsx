@@ -31,7 +31,8 @@ const GalleryViewer = ({ params }: { params: { id: string } }) => {
                     No images in this Gallery
                 </p>
             )}
-            <div className='w-full grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 mx-auto'>
+            <div className='leading-none columns-5 gap-1 inline-block mx-auto'>
+            {/* <div className='w-full grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 mx-auto'> */}
                 {images ? (
                     images.data[0].images.map((item: any) => {
                         return (
