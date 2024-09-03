@@ -31,7 +31,7 @@ export default function ImagePage() {
                     No images uploaded yet
                 </p>
             )}
-            <div className='w-full grid grid-cols-2 sm:grid-cols-4 gap-2 p-4 mx-auto'>
+            <div className='leading-none columns-1 sm:columns-2 md:columns-3 lg:columns-5 gap-1 inline-block mx-auto'>
                 {images ? images : <SkeletonLoader />}
             </div>
         </>

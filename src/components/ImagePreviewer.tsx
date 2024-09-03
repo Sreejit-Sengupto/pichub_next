@@ -38,7 +38,7 @@ const ImagePreviewer: React.FC<PropsType> = ({
         <div>
             <Dialog>
                 <DialogTrigger>
-                    <img src={imageUrl} alt='image' />
+                    <img src={imageUrl} alt='image' className='w-full h-auto'/>
                 </DialogTrigger>
                 <DialogContent
                     className='w-full'
