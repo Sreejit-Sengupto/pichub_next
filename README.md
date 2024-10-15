@@ -1,5 +1,5 @@
 # Pichub
-#### A place where you can have shared space to share photos with your friends. You can create a gallery, add photos and friends who can also upload photos.
+#### A place where you can have shared space to share photos with your friends. You can create a gallery, add friends and share photos.
 
 ## Run Locally
 1. Fork(optional), clone the project.
