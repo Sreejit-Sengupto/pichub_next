@@ -29,12 +29,13 @@ const ChangePasswordPage = () => {
     }
     return (
         <main className='w-[90%] lg:w-[30%] mx-auto h-[100dvh] flex flex-col justify-center items-center'>
-            <section className='space-y-8 w-full mx-auto p-6 rounded-lg border bg-[card] text-card-foreground shadow-sm'
+            {/* <section className='space-y-8 w-full mx-auto p-6 rounded-lg border bg-[card] text-card-foreground shadow-sm'
                 style={{ boxShadow: `0 8px 32px 0 rgba( 31, 38, 135, 0.37 )` }}>
                 <Input placeholder='Enter your username' value={username} onChange={(e) => setUsername(e.target.value)} />
                 <Input placeholder='Enter your new password' value={newPassword} onChange={e => setNewPassword(e.target.value)} />
                 <Button disabled={loading} onClick={submitHandler}>Change Password</Button>
-            </section>
+            </section> */}
+            <p>LoL go back!</p>
         </main>
     )
 }
