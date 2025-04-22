@@ -28,6 +28,12 @@ const Login = () => {
                     Register now
                 </Link>
             </p>
+            <p>
+                Forgot Password?
+                <Link href={'/change-password'} className='ml-2 underline'>
+                    Change now
+                </Link>
+            </p>
         </div>
     );
 };

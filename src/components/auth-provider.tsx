@@ -29,6 +29,7 @@ interface AuthContextProps {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     login: (username: string, password: string) => void;
     register: (username: string, password: string) => void;
+    changePassword: (username: string, newPassword: string) => void;
     upload: (formData: FormData) => void;
     getUser: () => void;
 }
@@ -80,6 +81,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         await login(username, password);
     };
 
+    const changePassword = async (username: string, newPassword: string) => {
+        await toast.promise(
+            axios.put('/api/user/change-password', {
+                username,
+                newPassword
+            }),
+            {
+                loading: 'Hold on...',
+                success: 'Password changed. Login with your new password now!',
+                error: 'Failed to change password',
+            }
+        )
+        router.push('/login')
+    }
+
     const upload = async (formData: FormData) => {
         await toast.promise(axios.post('/api/media/upload', formData), {
             loading: 'Patience! Uploading your media...',
@@ -94,6 +110,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser,
         login,
         register,
+        changePassword,
         upload,
         getUser,
     };
